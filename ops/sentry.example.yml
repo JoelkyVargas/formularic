@@ -1,0 +1,6 @@
+cat > ops/sentry.example.yml << 'EOF'
+sentry:
+  dsn: ${SENTRY_DSN}
+  traces_sample_rate: 0.2
+  environment: production
+EOF

@@ -1,0 +1,3 @@
+git bash
+
+cd C:/Users/jvz16/formularic

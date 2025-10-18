@@ -1,0 +1,16 @@
+# crear
+cat > .env.example << 'EOF'
+DJANGO_SECRET_KEY=changeme
+DJANGO_DEBUG=False
+DJANGO_ALLOWED_HOSTS=localhost,formularic.com
+DATABASE_URL=postgres://formularic:password@db:5432/formularic
+AWS_S3_BUCKET=changeme
+AWS_ACCESS_KEY_ID=changeme
+AWS_SECRET_ACCESS_KEY=changeme
+EMAIL_HOST=smtp.yourprovider.com
+EMAIL_HOST_USER=changeme
+EMAIL_HOST_PASSWORD=changeme
+WHATSAPP_TWILIO_SID=changeme
+WHATSAPP_TWILIO_TOKEN=changeme
+SENTRY_DSN=
+EOF

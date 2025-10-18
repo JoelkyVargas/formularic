@@ -1,0 +1,89 @@
+formularic/
+├─ manage.py                     # CLI Django
+├─ pyproject.toml / requirements.txt  # Dependencias
+├─ .env.example                  # Variables de entorno de ejemplo
+├─ README.md                     # Cómo instalar, correr, desplegar
+├─ Dockerfile / docker-compose.yml   # (Opcional) Contenedores
+├─ Procfile                      # (Opcional) Deploy en PaaS
+│
+├─ config/                       # Proyecto Django
+│  ├─ __init__.py
+│  ├─ settings.py                # Config base (split por entorno si quieres)
+│  ├─ urls.py                    # Enrutamiento raíz
+│  ├─ wsgi.py / asgi.py          # Server entrypoints
+│  └─ logging.py                 # (Opcional) Config de logging central
+│
+├─ apps/
+│  ├─ accounts/                  # Usuarios y roles
+│  │  ├─ models.py               # User (owner, assistant), perfiles
+│  │  ├─ views.py / forms.py     # Registro, login, invitaciones
+│  │  ├─ admin.py / urls.py
+│  │  └─ permissions.py          # Permisos básicos (owner/assistant)
+│  │
+│  ├─ clients/                   # Fichas/expedientes de clientes
+│  │  ├─ models.py               # Client, campos custom (JSONB)
+│  │  ├─ views.py / forms.py     # CRUD de cliente, búsqueda
+│  │  └─ urls.py / admin.py
+│  │
+│  ├─ templates_app/             # (Plantillas “machotes” del usuario y oficiales)
+│  │  ├─ models.py               # Template, TemplateField, versiones, anchors
+│  │  ├─ services.py             # Parse DOCX/PDF, mapeo, preview HTML
+│  │  ├─ views.py                # Subir, editar campos, vista previa
+│  │  ├─ utils_docx.py           # docxtpl helpers
+│  │  ├─ utils_pdf.py            # AcroForm / borb/pdfrw helpers
+│  │  └─ urls.py / admin.py
+│  │
+│  ├─ documents/                 # Documentos generados
+│  │  ├─ models.py               # Document, filled_json, file_url
+│  │  ├─ services.py             # Motor de render (Word→PDF, nombrado)
+│  │  ├─ views.py                # Generar, descargar, versionar
+│  │  └─ urls.py / admin.py
+│  │
+│  ├─ reminders/                 # Recordatorios y agenda
+│  │  ├─ models.py               # Reminder (tipo, fecha, canal)
+│  │  ├─ tasks.py                # Jobs (cron/apscheduler/celery beat)
+│  │  ├─ services.py             # Email/WhatsApp sender
+│  │  └─ views.py / urls.py
+│  │
+│  ├─ billing/                   # (Opcional V1) Suscripciones
+│  │  ├─ models.py               # Plan, Subscription, Invoice
+│  │  ├─ services.py             # Pasarela (Stripe/Local)
+│  │  └─ views.py / urls.py
+│  │
+│  ├─ api/                       # (Opcional) Endpoints públicos internos
+│  │  ├─ serializers.py / views.py
+│  │  └─ urls.py
+│  │
+│  └─ ui/                        # Vistas y navegación
+│     ├─ views.py / urls.py      # Dashboard, flujo “Nuevo documento”
+│     └─ context_processors.py   # Datos comunes para templates
+│
+├─ templates/                    # Plantillas Django (HTML)
+│  ├─ base.html                  # Layout (navbar, flashes)
+│  ├─ ui/                        # Páginas: dashboard, forms
+│  ├─ accounts/                  # Login, registro, invitaciones
+│  ├─ templates_app/             # Editor de mapeo, preview, barra lateral
+│  └─ documents/                 # Listado/descarga/ver versiones
+│
+├─ static/                       # Assets estáticos
+│  ├─ css/ (Bootstrap + estilos)
+│  ├─ js/  (HTMX/Alpine o vanilla; modal mapeo, autosave)
+│  └─ img/
+│
+├─ media/                        # (Si usas filesystem local) Archivos subidos
+│
+├─ scripts/                      # Utilidades
+│  ├─ init_dev.sh                # Setup local
+│  ├─ load_official_templates.py # Cargar plantillas oficiales iniciales
+│  └─ cron_sample.py             # Ejemplo de job local
+│
+├─ tests/                        # Pruebas
+│  ├─ test_templates_app.py      # Mapeo y anchors
+│  ├─ test_documents.py          # Render/nombrado
+│  ├─ test_clients.py            # CRUD cliente
+│  └─ test_permissions.py        # Owner/assistant
+│
+└─ ops/                          # (Opcional) Infra/CI-CD
+   ├─ nginx.conf / gunicorn.conf
+   ├─ sentry.example.yml         # Error tracking
+   └─ backup_policy.md           # Respaldos y retención
